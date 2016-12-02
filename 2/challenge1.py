@@ -6,7 +6,10 @@ Day 2 Challenge 1
 '''
 import sys
 
-def move(dir, x, y):
+def move(dir, x, y):	
+	old_x = x
+	old_y = y
+	length = 3
 	if dir == "U":
 		y -= 1
 	elif dir == "D":
@@ -16,14 +19,9 @@ def move(dir, x, y):
 	elif dir == "R":
 		x += 1
 
-	if y > 2:
-		y = 2
-	if y < 0:
-		y = 0
-	if x > 2:
-		x = 2
-	if x < 0:
-		x = 0
+	if x < 0 or y < 0 or y == length or x == length:
+		# Location out of bounds on keypad
+		return (old_x, old_y)
 
 	return (x,y)
 
@@ -33,7 +31,6 @@ def process_input(file_location):
     reply = []
     for line in f:
     	reply.append(line)
-    print "Input is: %s" % str(reply)
     return reply
 
 x = 1
