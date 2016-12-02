@@ -2,7 +2,7 @@
 Theo Browne
 Advent of Code
 www.adventofcode.com
-Day 1
+Day 1 Challenge 2
 '''
 import sys
 
@@ -21,9 +21,9 @@ def rotate(turn, direction):
 # Takes in amount of moves, direction, and current location,
 # returns new location
 def move(amount, direction, location):
-	location[0] += direction[0] * amount
-	location[1] += direction[1] * amount
-	return location
+	x = location[0] + (direction[0] * amount)
+	y = location[1] + (direction[1] * amount)
+	return (x,y)
 
 # Takes in input location and returns list of instructions
 def process_input(file_location):
@@ -39,14 +39,27 @@ def movement_to_amount(movement):
 
 instructions = process_input(sys.argv[1])
 direction = [0,1]
-location = [0,0]
+location = (0,0)
+locations = [location]
 
 for movement in instructions:
 	turn = movement[0]
 	direction = rotate(turn, direction)
 
 	amount = movement_to_amount(movement)
-	location = move(amount, direction, location)
+
+	# Goes step by step for amount specified
+	for x in range(0, amount):
+		location = move(1, direction, location)
+
+		# If location has been reached before
+		if location in locations:
+			distance = abs(location[0]) + abs(location[1])
+			print "Found Easter Bunny HQ at (%i, %i), %i blocks away" % (location[0], location[1], distance)
+			exit(0)
+
+		# Append current location to list of locations
+		locations.append(location)
 
 # Sums absolute value of x and y, distance from origin (0,0)
 print abs(location[0]) + abs(location[1])
