@@ -28,14 +28,7 @@ def move(amount, direction, location):
 # Takes in input location and returns list of instructions
 def process_input(file_location):
     f = open(file_location, "r")
-    return f.readlines()[0].split()
-
-# Takes in a movement "R2, L3, L10" and turns the number into
-# an integer, removing the comma and turn direction
-def movement_to_amount(movement):
-	length = len(movement)
-	if movement[length - 1] == ",": length = length - 1
-	return int(movement[1:length])
+    return f.readlines()[0].split(', ')
 
 instructions = process_input(sys.argv[1])
 direction = [0,1]
@@ -45,7 +38,7 @@ for movement in instructions:
 	turn = movement[0]
 	direction = rotate(turn, direction)
 
-	amount = movement_to_amount(movement)
+	amount = int(movement[1:len(movement)])
 	location = move(amount, direction, location)
 
 # Sums absolute value of x and y, distance from origin (0,0)
